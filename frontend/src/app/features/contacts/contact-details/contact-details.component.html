@@ -1,0 +1,106 @@
+@if (profile$ | async; as profile) {
+  @if (profile.error) {
+    <p class="status error" role="alert">{{ profile.error }}</p>
+  } @else if (profile.loading || !profile.contact) {
+    <p class="status">Loading contacts</p>
+  } @else {
+    <header class="profile">
+      <img class="profile-avatar" [src]="profile.contact.avatar_url" alt="" />
+      <div>
+        <h2 class="profile-name">{{ profile.contact.first_name }} {{ profile.contact.last_name }}</h2>
+        <p class="job">{{ profile.contact.job_title }}</p>
+        <div class="actions">
+          <a class="message" [href]="'mailto:' + profile.contact.primary_email">
+            <span class="mi" aria-hidden="true">forum</span>
+            Message
+          </a>
+          @if (phone(profile.contact); as number) {
+            <a class="icon-btn" [href]="'tel:' + number" [attr.aria-label]="'Call ' + number">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path fill="currentColor" d="M7.1 3.7c.4-.4 1-.5 1.5-.2l2 .9c.5.2.8.7.7 1.3l-.2 1.8c0 .4-.3.8-.7.9l-1 .3a9.6 9.6 0 0 0 4.9 4.9l.3-1c.1-.4.5-.7.9-.7l1.8-.2c.6-.1 1.1.2 1.3.7l.9 2c.3.5.2 1.1-.2 1.5l-1.3 1.3c-.4.4-1 .6-1.6.5-5.2-.9-9.3-5-10.2-10.2-.1-.6.1-1.2.5-1.6l1.4-1.2z"/>
+              </svg>
+            </a>
+          }
+          <a class="icon-btn" [href]="profile.contact.meeting_url" target="_blank" rel="noopener noreferrer" aria-label="Share screen">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <rect x="3.5" y="4" width="17" height="11.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 14.2V8.2M9.4 10.6 12 8l2.6 2.6"/>
+            </svg>
+          </a>
+          <button type="button" class="icon-btn more" aria-label="More">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+              <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+              <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="field bio">
+      <div class="field-label">Bio</div>
+      <p class="field-value">{{ profile.contact.bio }}</p>
+    </div>
+
+    <div class="field dial">
+      <div class="field-label">Dial</div>
+      <p class="field-value">{{ profile.contact.dial }}</p>
+    </div>
+
+    <div class="field meeting">
+      <div class="field-label">Meeting</div>
+      <p class="field-value">
+        <a class="plain" [href]="profile.contact.meeting_url" target="_blank" rel="noopener noreferrer">{{ profile.contact.meeting_url }}</a>
+      </p>
+    </div>
+
+    <div class="field phone">
+      <div class="field-label">Phone</div>
+      <div class="field-value">
+        @for (phone of profile.contact.phones; track phone.number) {
+          <div class="line">
+            <span>{{ phone.number }}</span>
+            @if (phone.is_primary) {
+              <span class="chip">Primary</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="field social-row">
+      <div class="field-label">Social</div>
+      <div class="field-value socials">
+        @for (link of profile.contact.social_links; track link.network) {
+          <a class="social" [href]="link.url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="label(link.network)">
+            @switch (link.network) {
+              @case ('facebook') {
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M14.2 8.5V7.2c0-.5.3-.6.6-.6h1.7V4.2h-2.3C11.8 4.2 11 5.5 11 7.1v1.4H9.2V11H11v7h2.4v-7h2.1l.3-2.5h-2.6z"/></svg>
+              }
+              @case ('pinterest') {
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 4.2A7.8 7.8 0 0 0 8.4 18.6c-.1-.6-.2-1.5 0-2.2.2-.6 1.3-5.5 1.3-5.5s-.3-.7-.3-1.6c0-1.5.9-2.6 2-2.6.9 0 1.4.7 1.4 1.6 0 1-.6 2.4-.9 3.7-.3 1.1.5 2 1.6 2 1.9 0 3.2-2.4 3.2-5.3 0-2.2-1.5-3.8-4.2-3.8-3 0-4.9 2.3-4.9 4.8 0 .9.3 1.8.7 2.4.1.1.1.2.1.3l-.3 1.1c0 .2-.2.3-.4.2-1.4-.6-2-2.2-2-4 0-3 2.5-6.6 7.5-6.6 4 0 6.6 2.9 6.6 6 0 4.1-2.3 7.2-5.6 7.2-1.1 0-2.2-.6-2.5-1.3l-.7 2.6c-.2.9-.8 1.9-1.3 2.6A7.8 7.8 0 1 0 12 4.2z"/></svg>
+              }
+              @case ('twitter') {
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19.6 7.3c.5-.3.9-.8 1.1-1.4-.5.3-1 .5-1.6.6A2.5 2.5 0 0 0 14.6 9c0 .2 0 .4.1.6-2.1-.1-4-1.1-5.2-2.7-.2.4-.3.8-.3 1.3 0 .9.4 1.7 1.1 2.1-.4 0-.8-.1-1.2-.3v.1c0 1.2.9 2.2 2 2.5-.2.1-.4.1-.7.1-.2 0-.3 0-.5-.1.3 1 1.3 1.8 2.4 1.8A5 5 0 0 1 6 16.3 7.1 7.1 0 0 0 9.8 17.4c4.6 0 7.1-3.8 7.1-7.1v-.3c.5-.3.9-.8 1.2-1.3-.4.2-.9.3-1.5.4z"/></svg>
+              }
+              @case ('linkedin') {
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7.1 9.3H4.6V19h2.5V9.3zM5.8 4.8A1.5 1.5 0 1 0 5.8 7.8 1.5 1.5 0 0 0 5.8 4.8zM19.4 19h-2.5v-4.7c0-1.1 0-2.6-1.6-2.6s-1.8 1.2-1.8 2.5V19H11V9.3h2.4v1.3h.1c.3-.6 1.2-1.3 2.4-1.3 2.6 0 3.1 1.7 3.1 3.9V19z"/></svg>
+              }
+              @case ('google') {
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 11.2v2.3h3.9c-.2 1.1-1.4 3.2-3.9 3.2A4.4 4.4 0 0 1 7.6 12 4.4 4.4 0 0 1 12 7.6c1.2 0 2 .5 2.5 1l1.7-1.6C15.2 5.9 13.8 5.2 12 5.2A6.8 6.8 0 0 0 5.2 12 6.8 6.8 0 0 0 12 18.8c3.9 0 6.5-2.7 6.5-6.6 0-.4 0-.8-.1-1H12z"/></svg>
+              }
+              @default { {{ link.network.slice(0, 1) }} }
+            }
+          </a>
+        }
+      </div>
+    </div>
+
+    <!-- The desktop frame has no address row. The brief requires an address, so it is one line under social. -->
+    <div class="field address">
+      <div class="field-label">Address</div>
+      <p class="field-value">{{ profile.contact.address }}</p>
+    </div>
+  }
+}

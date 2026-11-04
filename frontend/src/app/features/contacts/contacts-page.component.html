@@ -1,0 +1,101 @@
+@if (view$ | async; as view) {
+  <div class="screen">
+    <div class="panel" [class.show-detail]="view.showDetail">
+      <aside class="directory">
+        <header class="dir-header">
+          <div class="brand">
+            <!-- The frame shows this mark. It is not a menu: the brief has no menu. -->
+            <span class="menu-mark" aria-hidden="true"><span class="mi">menu</span></span>
+            <h1>Contacts</h1>
+          </div>
+          <div class="arrows">
+            <!-- Nine contacts fit on one screen. These stay visible and disabled.
+                 They are not a pagination control. -->
+            <button type="button" disabled aria-label="Previous contacts" title="All contacts fit on this screen">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="2" d="M14 6 8 12l6 6"/>
+              </svg>
+            </button>
+            <button type="button" disabled aria-label="Next contacts" title="All contacts fit on this screen">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="2" d="m10 6 6 6-6 6"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <label class="search">
+          <span class="search-caption">Search for a contact</span>
+          <span class="search-row">
+            <input
+              type="search"
+              placeholder="Name, email or phone number"
+              autocomplete="off"
+              (input)="onQuery($event)"
+            />
+            <span class="mi" aria-hidden="true">search</span>
+          </span>
+        </label>
+
+        @if (view.loading) {
+          <p class="dir-status">Loading contacts</p>
+        } @else if (view.error) {
+          <p class="dir-status error" role="alert">{{ view.error }}</p>
+        } @else if (view.rows.length === 0) {
+          <p class="dir-status">No contacts match this search.</p>
+        } @else {
+          <ul class="rows">
+            @for (contact of view.rows; track contact.id) {
+              <li class="row" [class.is-current]="contact.id === view.selectedId">
+                <button
+                  type="button"
+                  class="row-main"
+                  (click)="select(contact.id)"
+                  [attr.aria-current]="contact.id === view.selectedId ? 'true' : null"
+                >
+                  <span class="avatar-wrap">
+                    <img [src]="contact.avatar_url" alt="" />
+                    <span class="dot" [class.online]="contact.status === 'online'" [class.away]="contact.status === 'away'">
+                      <span class="visually-hidden">{{ contact.status === 'online' ? 'Online' : 'Away' }}</span>
+                    </span>
+                  </span>
+                  <span class="who">
+                    <span class="who-name">{{ contact.first_name }} {{ contact.last_name }}</span>
+                    <span class="who-title">{{ contact.job_title }}</span>
+                  </span>
+                </button>
+                <span class="row-actions">
+                  <a [href]="'mailto:' + contact.primary_email" [attr.aria-label]="'Email ' + contact.first_name + ' ' + contact.last_name">
+                    <span class="mi" aria-hidden="true">forum</span>
+                  </a>
+                  @if (phone(contact); as number) {
+                    <a [href]="'tel:' + number" [attr.aria-label]="'Call ' + contact.first_name + ' ' + contact.last_name">
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                        <path fill="currentColor" d="M7.1 3.7c.4-.4 1-.5 1.5-.2l2 .9c.5.2.8.7.7 1.3l-.2 1.8c0 .4-.3.8-.7.9l-1 .3a9.6 9.6 0 0 0 4.9 4.9l.3-1c.1-.4.5-.7.9-.7l1.8-.2c.6-.1 1.1.2 1.3.7l.9 2c.3.5.2 1.1-.2 1.5l-1.3 1.3c-.4.4-1 .6-1.6.5-5.2-.9-9.3-5-10.2-10.2-.1-.6.1-1.2.5-1.6l1.4-1.2z"/>
+                      </svg>
+                    </a>
+                  }
+                  <button type="button" class="more" aria-label="More">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                      <circle cx="6" cy="12" r="1.5" fill="currentColor"/>
+                      <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                      <circle cx="18" cy="12" r="1.5" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </aside>
+
+      <section class="detail">
+        <button type="button" class="back" (click)="back()">Back</button>
+        <div class="detail-body">
+          <contact-details></contact-details>
+          <contact-list></contact-list>
+        </div>
+      </section>
+    </div>
+  </div>
+}

@@ -1,0 +1,14 @@
+# Pins that let Flask-RESTPlus 0.13 import. Later Flask and Werkzeug
+# releases removed names RESTPlus still imports. app/restplus_compat.py
+# restores those names. The package is Flask-RESTPlus, not Flask-RESTX.
+Flask==1.1.4
+Werkzeug==1.0.1
+Jinja2==2.11.3
+MarkupSafe==1.1.1
+itsdangerous==1.1.0
+flask-restplus==0.13.0
+flask-cors==3.0.10
+aniso8601==8.1.0
+jsonschema==3.2.0
+pytz==2021.3
+pytest==7.4.4

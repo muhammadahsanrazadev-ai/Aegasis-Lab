@@ -1,0 +1,23 @@
+---
+description: Engineering principles used to judge an architecture proposal, without locking a pattern early
+alwaysApply: true
+---
+
+# How a proposal is judged
+
+Name the principle a proposal serves. A name alone is not a reason. Do not add a pattern that serves no current requirement.
+
+- **Separation of concerns.** A contact rule does not format HTTP, render HTML, or open a database connection. If one module does two of those, split the proposal.
+- **Dependency inversion.** A business rule depends on an interface it owns. It does not import Flask, Angular, or a database driver. The adapter is a later, separate decision.
+- **SOLID, applied where it bites.** One reason to change per module. A new contact field should not force an edit in the HTTP parser and the screen and the store. Interfaces stay small. Details depend on abstractions.
+- **DRY.** One rule lives in one place. Do not invent a shared layer for a single call site.
+- **KISS.** Two endpoints and one screen do not get a bus, CQRS, or a pattern catalog. Reject a second solution for the same responsibility.
+- **Modular boundaries.** A change to email listing does not require an edit to an unrelated future module. Folders follow approved responsibilities, not a template.
+- **Reusable components.** Extract a UI or server piece when a second real use exists, not before.
+- **Errors and validation.** Failures are typed and visible at the boundary. Validation has one home per input. No empty catch. The concrete status codes wait for the API decision.
+- **Security.** No secret in the repo. Auth is a later decision. Do not pretend a static label is an account system.
+- **Naming.** One term per concept, shared by the decision log and the code that follows it.
+- **Logging.** Log the decision and the failure at the boundary. Do not log for every function call.
+- **Tests.** Unit tests cover a rule without the framework. A boundary test covers the HTTP or component contract. End-to-end tests stay out of this exercise. The test layout is chosen with the module it tests, after that module is approved.
+- **Data and API shape.** Persistence and the JSON contract are their own approved decisions. Do not hide either inside a component or a resource class.
+- **Performance and scale.** Fix a measured cost. Do not add caching, pagination, or extra services for a directory this size until that need is approved.

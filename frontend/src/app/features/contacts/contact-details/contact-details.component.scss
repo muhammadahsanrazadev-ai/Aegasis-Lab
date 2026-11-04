@@ -1,0 +1,68 @@
+:host {
+  display: contents;
+}
+
+.profile {
+  order: 1;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+@media (min-width: 860px) {
+  .profile {
+    position: absolute;
+    width: 405px;
+    height: 115px;
+    top: 61px;
+    left: 770px;
+    transform: rotate(0deg);
+    opacity: 1;
+    margin-bottom: 0;
+  }
+}
+
+.profile-avatar {
+  width: 114px;
+  height: 114px;
+  margin-top: 1px;
+  border-radius: 26px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
+.profile-name {
+  font-size: 26px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.job {
+  margin-top: 4px;
+  color: #8b90a5;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.field.bio { order: 2; }
+.field.dial { order: 4; }
+.field.meeting { order: 5; }
+.field.phone { order: 6; }
+.field.social-row { order: 7; }
+.field.address { order: 8; }
+
+.status {
+  order: 0;
+  color: #667085;
+}
+
+.status.error {
+  color: #b42318;
+}

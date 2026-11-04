@@ -1,0 +1,19 @@
+---
+description: No application code until the user approves the architecture decision that covers it
+alwaysApply: true
+---
+
+# Foundation gate
+
+The project is in the architecture phase. Consistency and non-overlapping instructions outrank speed.
+
+- Do not add or restore application code until the user approves that slice. Application code means business logic, Angular components, Flask resources, services, repositories, database schema, and tests of those.
+- Do not mark an architecture or design-pattern choice as final in `docs/architecture/DECISIONS.md` unless the user approved it in the conversation.
+- One open architectural concern at a time. Do not bundle the next decision into the same change.
+- If a requirement is ambiguous, ask before proposing a second option set.
+- Do not delete, reset, or modify a database or operational data unless the user explicitly approves that action.
+- Do not introduce a second rule that repeats or contradicts this gate, the exercise brief, or an approved decision.
+- Before changing an approved decision, say what it impacts and wait for approval.
+- The withdrawn draft (old `PLAN.md`, Flask app, Angular scaffold) is not a decision. Do not copy it back in.
+
+Cursor setup, this decision log, and engineering rules are allowed. They are not the application.

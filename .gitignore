@@ -1,0 +1,21 @@
+# Byte-compiled / caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+backend/.venv/
+backend/contacts.db
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# Local extraction notes
+_extracted_docs.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db

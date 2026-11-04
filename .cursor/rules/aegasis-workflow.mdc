@@ -1,0 +1,24 @@
+---
+description: Interview workflow — define A and B, get approval, then build one verified step
+alwaysApply: true
+---
+
+# How to work
+
+Aegasis watches the path from the current state (A) to done (B). Unread or untested output does not count. The foundation gate still blocks application code until the relevant decision is approved.
+
+## Before a change
+
+- State A: what exists today.
+- State B: what a reviewer can observe when this step is done.
+- If the step needs an architecture choice, the choice is a proposal. Stop after the proposal until the user approves it.
+- Name one alternative you are not taking, and why.
+- Do not generate a whole feature in one pass.
+
+## After approval, while building
+
+- One verifiable step at a time.
+- Read every change. If you cannot explain a line, it does not stay.
+- If the path is wrong, stop and correct it before adding more.
+- Run the check for that step before the next step.
+- "It seems to work" is not done. Show the command or the behavior.

@@ -1,0 +1,21 @@
+---
+description: Coding-exercise scope from the brief. These are requirements, not an approved design, and not permission to code.
+alwaysApply: true
+---
+
+# Exercise scope
+
+Source: the full-stack coding exercise and the interview guide. This list is the product scope. It does not approve a folder tree, a library beyond the brief, or a start date for coding.
+
+When implementation is later approved, the result still has to satisfy all of these:
+
+- One responsive Angular screen for a customer-service representative, in TypeScript, HTML, and SCSS, following the AR Shakir contacts dashboard.
+- Figma file: `7fMi9iwHrMOz3taFMcZDVe`, node `0:1`.
+- Flask API with resource-based classes and RESTPlus, as the brief names it. Which maintained package satisfies that sentence is an open decision, not a default.
+- Endpoints the brief names: `/contacts` and `/contacts/{id}/email_addresses`. A contact has a first name, last name, address, and other liaison fields, and can have many emails.
+- Components the brief names: `contact-list` and `contact-details`. On load they fetch the mock API and show the data the representative needs.
+- No Angular Material, Material2, PrimeNG, ng-bootstrap, or a third-party pagination or data-table module.
+- Production-shaped structure. A skipped part needs a comment that says what a full version would do. Assumptions go in the source.
+- Unit tests where they earn their place. No end-to-end tests.
+
+Do not treat a past draft as the way these requirements will be met.

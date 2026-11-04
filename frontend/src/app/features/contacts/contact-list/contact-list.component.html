@@ -1,0 +1,27 @@
+@if (view$ | async; as view) {
+  @if (view.kind === 'loading') {
+    <div class="field emails">
+      <div class="field-label">Email</div>
+      <p class="field-value">Loading</p>
+    </div>
+  } @else if (view.kind === 'error') {
+    <div class="field emails">
+      <div class="field-label">Email</div>
+      <p class="field-value error" role="alert">Email addresses could not be loaded.</p>
+    </div>
+  } @else if (view.kind === 'ready') {
+    <div class="field emails">
+      <div class="field-label">Email</div>
+      <div class="field-value">
+        @for (email of view.emails; track email.id) {
+          <div class="line">
+            <a [href]="'mailto:' + email.email">{{ email.email }}</a>
+            @if (email.is_primary) {
+              <span class="chip">Primary</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+}

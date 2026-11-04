@@ -1,0 +1,341 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.screen {
+  height: 100%;
+  padding: 0;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(320px, 38%) minmax(0, 1fr);
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.directory {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #f7f8fc;
+  border-right: 1px solid #eceef4;
+}
+
+.dir-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #eceef4;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.brand h1 {
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+.menu-mark {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #fff;
+  color: #1c1e2a;
+  box-shadow: inset 0 0 0 1px #e6e8f0;
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.arrows button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  color: #98a0b3;
+  box-shadow: inset 0 0 0 1px #e6e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrows button:disabled {
+  cursor: default;
+}
+
+.search {
+  display: block;
+  padding: 14px 18px 14px;
+}
+
+.search-caption {
+  display: block;
+  margin-bottom: 6px;
+  color: #a0a4b8;
+  font-size: 12px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #98a2b3;
+}
+
+.search-row input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 4px 0;
+  background: transparent;
+  color: #1c1e2a;
+  font-weight: 700;
+}
+
+.search-row input:focus {
+  outline: none;
+}
+
+.search-row:focus-within {
+  outline: 2px solid #6c4ce2;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.search-row input::placeholder {
+  color: #1c1e2a;
+  font-weight: 700;
+  opacity: 1;
+}
+
+.rows {
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  overflow: auto;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 68px;
+  border-radius: 12px;
+}
+
+.row.is-current,
+.row:hover {
+  background: #eef0f8;
+}
+
+.row-main {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 16px 4px 16px 18px;
+  min-height: 68px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+.avatar-wrap img {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+
+.dot {
+  position: absolute;
+  left: -1px;
+  bottom: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #f7f8fc;
+}
+
+.row.is-current .dot,
+.row:hover .dot {
+  box-shadow: 0 0 0 2px #eef0f8;
+}
+
+.dot.online { background: #34c759; }
+.dot.away { background: #f5a524; }
+
+.who {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.who-name {
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.who-title {
+  color: #8b90a5;
+  font-size: 12px;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+  padding-right: 8px;
+}
+
+.row-actions a,
+.row-actions button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #8b90a5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px #e7e9f2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.row.is-current .row-actions a,
+.row.is-current .row-actions button,
+.row-actions a:hover,
+.row-actions button:hover {
+  background: #f3f1ff;
+  color: #6c4ce2;
+}
+
+.dir-status {
+  padding: 18px;
+  color: #667085;
+}
+
+.dir-status.error {
+  color: #b42318;
+}
+
+.detail {
+  min-width: 0;
+  overflow: auto;
+  padding: 36px 48px 40px;
+  background: #fff;
+}
+
+@media (min-width: 860px) {
+  .detail {
+    padding-top: 176px;
+  }
+}
+
+.detail-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.back {
+  display: none;
+  margin: 0 0 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #f3f4f8;
+  color: #1c1e2a;
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back:hover {
+  background: #e7e9f2;
+}
+
+/* No mobile frame was provided. Below 860px the directory is full width,
+   a chosen row opens the detail pane, and Back returns. This is CSS only;
+   it was not checked on a physical device. Arrow buttons hide because the
+   directory is a single column. There is no horizontal scroll. */
+@media (max-width: 859px) {
+  .screen {
+    padding: 0;
+  }
+
+  .panel {
+    max-width: none;
+    min-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    grid-template-columns: 1fr;
+  }
+
+  .directory,
+  .detail {
+    display: none;
+  }
+
+  .panel:not(.show-detail) .directory {
+    display: flex;
+  }
+
+  .panel.show-detail .detail {
+    display: block;
+  }
+
+  .arrows {
+    display: none;
+  }
+
+  .back {
+    display: inline-flex;
+  }
+
+  .detail {
+    padding: 16px;
+  }
+}
