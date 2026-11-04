@@ -135,6 +135,10 @@
   opacity: 1;
 }
 
+/* The frame draws no scrollbar. On a short window the last contacts sit
+   below the fold, and an overlay scrollbar takes no space and was invisible.
+   A classic bar is painted here, and on .detail, so the rest of the list
+   and a long profile can be reached. */
 .rows {
   margin: 0;
   padding: 8px 4px 8px 8px;
@@ -228,6 +232,7 @@
   min-width: 0;
 }
 
+/* Names and titles wrap. An ellipsis would hide part of the contact. */
 .who-name {
   font-size: 14px;
   font-weight: 700;
@@ -303,6 +308,9 @@
   border: 2px solid #f4f5f8;
 }
 
+/* The frame's bio row is 608px. The column caps at 720px on a wide
+   monitor and shrinks with the pane, so the text is not one long line
+   and does not use the frame's page coordinates. */
 .detail-body {
   display: flex;
   flex-direction: column;

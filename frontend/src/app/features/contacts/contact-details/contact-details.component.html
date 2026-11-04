@@ -9,6 +9,8 @@
       <div>
         <h2 class="profile-name">{{ profile.contact.first_name }} {{ profile.contact.last_name }}</h2>
         <p class="job">{{ profile.contact.job_title }}</p>
+        <!-- Message writes the primary email. The phone icon dials the primary number.
+             Share screen opens meeting_url. More is the frame's three-dot mark and has no menu. -->
         <div class="actions">
           <a class="message" [href]="'mailto:' + profile.contact.primary_email">
             <span class="mi" aria-hidden="true">forum</span>

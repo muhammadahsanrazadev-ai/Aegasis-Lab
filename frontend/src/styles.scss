@@ -45,6 +45,10 @@ input {
   border: 0;
 }
 
+/* The bio row in the frame is 608px wide and the value starts 55px in.
+   A fixed 55px label column clips the words Meeting and Address, so the
+   label column is only as wide as its text and the gap after it is 16px.
+   Below 860px the label stacks above the value so neither is cut off. */
 .field {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
@@ -111,6 +115,9 @@ a.plain:hover {
   line-height: 16px;
 }
 
+/* Figma: Material Icons, weight 400, 18px, line-height 100%, letter-spacing 0,
+   text-align center. leading-trim is a Figma-only property and is not valid CSS.
+   Angular Material, Material2, PrimeNG, and ng-bootstrap are not used. */
 .mi {
   font-family: "Material Icons";
   font-weight: 400;

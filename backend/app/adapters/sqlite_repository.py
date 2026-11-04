@@ -10,7 +10,13 @@ class SqliteContactRepository:
         self._db_path = str(db_path)
 
     def prepare(self):
-        """Create tables and insert the dummy directory once."""
+        """Create tables and insert the dummy directory once.
+
+        There is no separate seed command. Starting the API calls this.
+        If contacts already has rows, they stay as they are, including an
+        older avatar file name. Delete contacts.db and start again to insert
+        the current seed.
+        """
         connection = connect(self._db_path)
         try:
             apply_schema(connection)

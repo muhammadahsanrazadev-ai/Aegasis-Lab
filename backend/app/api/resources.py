@@ -76,7 +76,9 @@ def _avatar_url(contact, root):
     stored = contact.avatar_file or ""
     if stored.startswith("http://") or stored.startswith("https://"):
         return stored
-    # A database created before the portrait links still has a local file name.
+    # prepare() does not update an existing database. A row saved before the
+    # https portraits still holds a local file name, so the current link for
+    # that contact id is used.
     return PORTRAIT_URLS.get(contact.id) or "{0}/static/avatars/{1}".format(root, stored)
 
 

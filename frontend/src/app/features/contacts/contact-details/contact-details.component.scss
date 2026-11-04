@@ -2,6 +2,11 @@
   display: contents;
 }
 
+/* The frame places this block at left 770px, top 61px, 405 by 115, and the
+   bio row at left 715px, top 215px, on a 1440 canvas. Those page coordinates
+   overflow every other width. The photo stays 114 by 114, radius 26, with a
+   1px top offset, and the block flows inside the right column. Bio keeps a
+   minimum height of 67px and the shared label and value type. */
 .profile {
   order: 1;
   display: flex;
