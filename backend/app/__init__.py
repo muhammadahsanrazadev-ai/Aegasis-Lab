@@ -19,8 +19,7 @@ from app.services.contact_service import ContactService
 
 
 def create_app(db_path=None):
-    static_dir = Path(__file__).resolve().parent / "static"
-    app = Flask(__name__, static_folder=str(static_dir), static_url_path="/static")
+    app = Flask(__name__, static_folder=None)
     # The Angular route is also /contacts, so the browser calls this origin
     # directly. Do not proxy /contacts through the dev server.
     CORS(app, resources={r"/contacts*": {"origins": [

@@ -1,7 +1,7 @@
 """HTTP resources. Business rules stay in the service."""
 
 import app.restplus_compat  # noqa: F401  must run before flask_restplus
-from flask import current_app, request
+from flask import current_app
 from flask_restplus import Api, Namespace, Resource, abort, fields
 
 from app.domain.exceptions import ContactNotFound
@@ -72,18 +72,15 @@ def _service():
     return current_app.extensions["contact_service"]
 
 
-def _avatar_url(contact, root):
+def _avatar_url(contact):
     stored = contact.avatar_file or ""
     if stored.startswith("http://") or stored.startswith("https://"):
         return stored
-    # prepare() does not update an existing database. A row saved before the
-    # https portraits still holds a local file name, so the current link for
-    # that contact id is used.
-    return PORTRAIT_URLS.get(contact.id) or "{0}/static/avatars/{1}".format(root, stored)
+    # prepare() does not rewrite a row saved before the https portraits.
+    return PORTRAIT_URLS.get(contact.id, "")
 
 
 def _contact_payload(contact):
-    root = request.url_root.rstrip("/")
     return {
         "id": contact.id,
         "first_name": contact.first_name,
@@ -91,7 +88,7 @@ def _contact_payload(contact):
         "job_title": contact.job_title,
         "bio": contact.bio,
         "address": contact.address,
-        "avatar_url": _avatar_url(contact, root),
+        "avatar_url": _avatar_url(contact),
         "status": contact.status,
         "dial": contact.dial,
         "meeting_url": contact.meeting_url,

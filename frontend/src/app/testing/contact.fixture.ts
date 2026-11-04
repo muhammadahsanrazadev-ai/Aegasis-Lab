@@ -8,7 +8,7 @@ export function sampleContact(overrides: Partial<Contact> = {}): Contact {
     job_title: 'Developer',
     bio: 'Builds the billing service.',
     address: '18 King Street, London, EC2V 8AY',
-    avatar_url: 'http://127.0.0.1:5000/static/avatars/nicholas-gordon.png',
+    avatar_url: 'https://randomuser.me/api/portraits/men/75.jpg',
     status: 'online',
     dial: 'n.gordon@ymsg.com',
     meeting_url: 'http://go.betacall.com/meet/n.gordon',
