@@ -34,7 +34,7 @@ In the same `backend` terminal:
 
 Leave this terminal open. The API is at http://127.0.0.1:5000.
 
-The first start creates `backend/contacts.db` and fills it with the nine contacts. There is no separate seed command. If that file already has contacts, they are left as they are.
+The first start creates `backend/contacts.db` and fills it with the sample contacts. There is no separate seed command. Contacts already in that file stay as they are. A later seed person is added on the next start.
 
 ## 3. Frontend setup
 

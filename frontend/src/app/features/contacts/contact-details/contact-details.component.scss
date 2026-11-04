@@ -2,11 +2,9 @@
   display: contents;
 }
 
-/* The frame places this block at left 770px, top 61px, 405 by 115, and the
-   bio row at left 715px, top 215px, on a 1440 canvas. Those page coordinates
-   overflow every other width. The photo stays 114 by 114, radius 26, with a
-   1px top offset, and the block flows inside the right column. Bio keeps a
-   minimum height of 67px and the shared label and value type. */
+/* The photo starts on the same line as the field values. The label column
+   and its gap sit to the left of that line, so Bio and the other words
+   begin before the picture, as in the reference frame. */
 .profile {
   order: 1;
   display: flex;
@@ -15,6 +13,7 @@
   align-items: flex-start;
   margin-bottom: 28px;
   max-width: 100%;
+  padding-left: calc(var(--field-label, 56px) + var(--field-gap, 16px));
 }
 
 .profile > div {
@@ -55,14 +54,21 @@
 
 .field.bio {
   order: 2;
-  min-height: 67px;
-  align-items: center;
 }
 .field.dial { order: 4; }
 .field.meeting { order: 5; }
 .field.phone { order: 6; }
-.field.social-row { order: 7; }
-.field.address { order: 8; }
+.field.address { order: 7; }
+.field.social-row {
+  order: 8;
+  align-items: center;
+}
+
+@media (max-width: 859px) {
+  .profile {
+    padding-left: 0;
+  }
+}
 
 .status {
   order: 0;

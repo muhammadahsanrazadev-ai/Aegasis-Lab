@@ -45,14 +45,15 @@ input {
   border: 0;
 }
 
-/* The bio row in the frame is 608px wide and the value starts 55px in.
-   A fixed 55px label column clips the words Meeting and Address, so the
-   label column is only as wide as its text and the gap after it is 16px.
-   Below 860px the label stacks above the value so neither is cut off. */
+/* The picture and every value share one left edge. Labels sit in the
+   56px column to the left of that edge, right-aligned, with a 16px gap.
+   Meeting is the widest label, about 52px, so it fits. A per-row column
+   would start each value at a different x. Below 860px the label stacks
+   above the value. */
 .field {
   display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-  column-gap: 16px;
+  grid-template-columns: var(--field-label, 56px) minmax(0, 1fr);
+  column-gap: var(--field-gap, 16px);
   align-items: start;
   padding: 8px 0;
   font-family: Lato, sans-serif;
@@ -60,7 +61,7 @@ input {
 }
 
 .field-label {
-  justify-self: end;
+  justify-self: stretch;
   color: #8083a3;
   font-family: Lato, sans-serif;
   font-weight: 400;

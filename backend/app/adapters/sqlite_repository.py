@@ -10,21 +10,26 @@ class SqliteContactRepository:
         self._db_path = str(db_path)
 
     def prepare(self):
-        """Create tables and insert the dummy directory once.
+        """Create tables and insert any dummy contact that is not stored yet.
 
         There is no separate seed command. Starting the API calls this.
-        If contacts already has rows, they stay as they are, including an
-        older avatar file name. Delete contacts.db and start again to insert
-        the current seed.
+        A contact already in the table is left as it is, including an older
+        avatar file name. People added to the seed later are inserted beside
+        those rows, so the directory can grow without deleting contacts.db.
         """
         connection = connect(self._db_path)
         try:
             apply_schema(connection)
             people = directory()
-            count = connection.execute("SELECT COUNT(*) AS n FROM contacts").fetchone()["n"]
-            if count:
-                return
+            existing = {
+                row["id"]
+                for row in connection.execute("SELECT id FROM contacts").fetchall()
+            }
+            inserted = False
             for person in people:
+                if person["id"] in existing:
+                    continue
+                inserted = True
                 connection.execute(
                     """
                     INSERT INTO contacts (
@@ -54,7 +59,8 @@ class SqliteContactRepository:
                         "INSERT INTO social_links (contact_id, network, url) VALUES (?, ?, ?)",
                         (person["id"], network, url),
                     )
-            connection.commit()
+            if inserted:
+                connection.commit()
         finally:
             connection.close()
 

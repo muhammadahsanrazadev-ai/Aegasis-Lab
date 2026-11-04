@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Contact } from '../../../core/api/contact.model';
 import { ContactsApiService } from '../../../core/api/contacts-api.service';
@@ -28,9 +28,40 @@ export class ContactDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.api.listContacts().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (contacts) => this.selection.setContacts(contacts),
+      next: (contacts) => {
+        this.selection.setContacts(contacts);
+        this.indexEmails(contacts);
+      },
       error: () => this.selection.setListFailed('Contacts could not be loaded.'),
     });
+  }
+
+  /**
+   * The directory response has primary_email only. Search also needs the
+   * other addresses, which stay on GET /contacts/{id}/email_addresses.
+   * A failed address call leaves that contact searchable by its primary email.
+   */
+  private indexEmails(contacts: Contact[]): void {
+    if (contacts.length === 0) {
+      this.selection.setSearchEmails({});
+      return;
+    }
+    forkJoin(
+      contacts.map((contact) =>
+        this.api.listEmailAddresses(contact.id).pipe(
+          map((emails) => ({ id: contact.id, emails: emails.map((item) => item.email) })),
+          catchError(() => of({ id: contact.id, emails: [] as string[] })),
+        ),
+      ),
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((rows) => {
+        const index: Record<number, readonly string[]> = {};
+        for (const row of rows) {
+          index[row.id] = row.emails;
+        }
+        this.selection.setSearchEmails(index);
+      });
   }
 
   phone(contact: Contact): string {

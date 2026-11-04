@@ -21,12 +21,15 @@ export class ContactSelectionService {
   private readonly listErrorSubject = new BehaviorSubject<string | null>(null);
   private readonly listLoadingSubject = new BehaviorSubject<boolean>(true);
   private readonly showDetailSubject = new BehaviorSubject<boolean>(false);
+  private readonly searchEmailsSubject = new BehaviorSubject<Readonly<Record<number, readonly string[]>>>({});
 
   readonly contacts$ = this.contactsSubject.asObservable();
   readonly selectedId$ = this.selectedIdSubject.asObservable();
   readonly listError$ = this.listErrorSubject.asObservable();
   readonly listLoading$ = this.listLoadingSubject.asObservable();
   readonly showDetail$ = this.showDetailSubject.asObservable();
+  /** Every address for each contact, primary and secondary, keyed by contact id. */
+  readonly searchEmails$ = this.searchEmailsSubject.asObservable();
   readonly selectedContact$ = combineLatest([this.contacts$, this.selectedId$]).pipe(
     map(([contacts, id]) => contacts?.find((contact) => contact.id === id) ?? null),
   );
@@ -46,11 +49,16 @@ export class ContactSelectionService {
     }
   }
 
+  setSearchEmails(emails: Readonly<Record<number, readonly string[]>>): void {
+    this.searchEmailsSubject.next(emails);
+  }
+
   setListFailed(message: string): void {
     this.listLoadingSubject.next(false);
     this.listErrorSubject.next(message);
     this.contactsSubject.next(null);
     this.selectedIdSubject.next(null);
+    this.searchEmailsSubject.next({});
   }
 
   select(id: number): void {

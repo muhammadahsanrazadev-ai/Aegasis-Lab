@@ -9,14 +9,14 @@
             <h1>Contacts</h1>
           </div>
           <div class="arrows">
-            <!-- Nine contacts fit on one screen. These stay visible and disabled.
+            <!-- The directory scrolls. These stay visible and disabled.
                  They are not a pagination control. -->
-            <button type="button" disabled aria-label="Previous contacts" title="All contacts fit on this screen">
+            <button type="button" disabled aria-label="Previous contacts" title="The list scrolls">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
                 <path fill="none" stroke="currentColor" stroke-width="2" d="M14 6 8 12l6 6"/>
               </svg>
             </button>
-            <button type="button" disabled aria-label="Next contacts" title="All contacts fit on this screen">
+            <button type="button" disabled aria-label="Next contacts" title="The list scrolls">
               <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
                 <path fill="none" stroke="currentColor" stroke-width="2" d="m10 6 6 6-6 6"/>
               </svg>
@@ -24,16 +24,25 @@
           </div>
         </header>
 
-        <!-- Filters the loaded directory by name, job title, primary email, and phone. No search endpoint. -->
+        <!-- Filters the loaded directory by name, job title, every email address, and phone. No search endpoint. -->
         <label class="search">
           <span class="search-caption">Search for a contact</span>
           <span class="search-row">
             <input
+              #queryInput
               type="search"
               placeholder="Name, email or phone number"
               autocomplete="off"
               (input)="onQuery($event)"
             />
+            @if (view.query) {
+              <!-- The native search cancel glyph is a dark system icon. This draws the design purple instead. -->
+              <button type="button" class="search-clear" aria-label="Clear search" (click)="clearQuery(queryInput)">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                  <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/>
+                </svg>
+              </button>
+            }
             <span class="mi" aria-hidden="true">search</span>
           </span>
         </label>

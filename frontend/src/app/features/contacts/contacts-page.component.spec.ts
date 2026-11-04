@@ -32,10 +32,18 @@ describe('ContactsPageComponent', () => {
 
   afterEach(() => http.verify());
 
-  function load(contacts: Contact[]): void {
+  function flushEmails(bodyFor: (id: number) => object[]): void {
+    const requests = http.match((request) => request.url.includes('/email_addresses'));
+    for (const request of requests) {
+      const id = Number(request.request.url.match(/contacts\/(\d+)\/email_addresses/)?.[1]);
+      request.flush(bodyFor(id));
+    }
+  }
+
+  function load(contacts: Contact[], bodyFor: (id: number) => object[] = () => []): void {
     fixture.detectChanges();
     http.expectOne(`${API_ORIGIN}/contacts`).flush(contacts);
-    http.expectOne(`${API_ORIGIN}/contacts/${contacts[0].id}/email_addresses`).flush([]);
+    flushEmails(bodyFor);
     fixture.detectChanges();
   }
 
@@ -44,9 +52,12 @@ describe('ContactsPageComponent', () => {
     const contacts = http.expectOne(`${API_ORIGIN}/contacts`);
     expect(contacts.request.method).toBe('GET');
     contacts.flush([nicholas, johanna]);
-    const emails = http.expectOne(`${API_ORIGIN}/contacts/1/email_addresses`);
-    expect(emails.request.method).toBe('GET');
-    emails.flush([{ id: 9, email: 'nicholas.gordon@northwind.example', is_primary: true }]);
+    const emails = http.match(`${API_ORIGIN}/contacts/1/email_addresses`);
+    expect(emails.length).toBeGreaterThan(0);
+    expect(emails[0].request.method).toBe('GET');
+    flushEmails((id) => id === 1
+      ? [{ id: 9, email: 'nicholas.gordon@northwind.example', is_primary: true }]
+      : []);
     fixture.detectChanges();
 
     const names = Array.from(fixture.nativeElement.querySelectorAll('.who-name')).map(
@@ -75,6 +86,26 @@ describe('ContactsPageComponent', () => {
     http.expectNone(`${API_ORIGIN}/contacts`);
   });
 
+  it('matches a secondary email from the email endpoint', () => {
+    load([nicholas, johanna], (id) => id === 1
+      ? [
+          { id: 9, email: 'nicholas.gordon@northwind.example', is_primary: true },
+          { id: 10, email: 'nicholas.gordon@gmail.example', is_primary: false },
+        ]
+      : [
+          { id: 1, email: 'johanna.stevens@gmail.com', is_primary: true },
+          { id: 2, email: 'johanna.stevens@whiteui.store', is_primary: false },
+        ]);
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    input.value = 'whiteui';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    const names = Array.from(fixture.nativeElement.querySelectorAll('.who-name')).map(
+      (node) => (node as HTMLElement).textContent?.trim(),
+    );
+    expect(names).toEqual(['Johanna Stevens']);
+  });
+
   it('does not request emails when the contact list fails', () => {
     fixture.detectChanges();
     http.expectOne(`${API_ORIGIN}/contacts`).flush('no', { status: 500, statusText: 'Server Error' });
@@ -86,9 +117,8 @@ describe('ContactsPageComponent', () => {
   it('keeps the profile when the email request fails', () => {
     fixture.detectChanges();
     http.expectOne(`${API_ORIGIN}/contacts`).flush([nicholas]);
-    http.expectOne(`${API_ORIGIN}/contacts/1/email_addresses`).flush('no', {
-      status: 500,
-      statusText: 'Server Error',
+    http.match(`${API_ORIGIN}/contacts/1/email_addresses`).forEach((request) => {
+      request.flush('no', { status: 500, statusText: 'Server Error' });
     });
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.profile-name').textContent).toContain('Nicholas Gordon');
@@ -99,9 +129,9 @@ describe('ContactsPageComponent', () => {
     load([nicholas, johanna]);
     const rows = fixture.nativeElement.querySelectorAll('.row-main');
     (rows[1] as HTMLButtonElement).click();
-    http.expectOne(`${API_ORIGIN}/contacts/3/email_addresses`).flush([
+    http.match(`${API_ORIGIN}/contacts/3/email_addresses`).forEach((request) => request.flush([
       { id: 1, email: 'johanna.stevens@gmail.com', is_primary: true },
-    ]);
+    ]));
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.profile-name').textContent).toContain('Johanna Stevens');
     expect(fixture.nativeElement.textContent).toContain('johanna.stevens@gmail.com');

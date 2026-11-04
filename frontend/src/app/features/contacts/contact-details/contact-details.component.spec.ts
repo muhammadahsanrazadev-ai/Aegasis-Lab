@@ -35,6 +35,7 @@ describe('ContactDetailsComponent', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.textContent).toContain('Johanna Stevens');
     expect(fixture.nativeElement.textContent).toContain('UI/UX Designer');
+    http.match((request) => request.url.includes('email_addresses')).forEach((request) => request.flush([]));
   });
 
   it('shows an error and does not keep a contact when the request fails', () => {

@@ -71,6 +71,12 @@
       </div>
     </div>
 
+    <!-- The desktop frame has no address row. The brief requires an address, so it sits above Social. Social stays the last row. -->
+    <div class="field address">
+      <div class="field-label">Address</div>
+      <p class="field-value">{{ profile.contact.address }}</p>
+    </div>
+
     <div class="field social-row">
       <div class="field-label">Social</div>
       <div class="field-value socials">
@@ -97,12 +103,6 @@
           </a>
         }
       </div>
-    </div>
-
-    <!-- The desktop frame has no address row. The brief requires an address, so it is one line under social. -->
-    <div class="field address">
-      <div class="field-label">Address</div>
-      <p class="field-value">{{ profile.contact.address }}</p>
     </div>
   }
 }

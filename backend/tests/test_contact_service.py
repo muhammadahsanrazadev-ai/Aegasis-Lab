@@ -19,6 +19,8 @@ def test_directory_matches_the_screen_order(service):
     assert [contact.last_name for contact in contacts] == [
         "Gordon", "Malone", "Stevens", "Lambert", "Lloyd",
         "Haynes", "Peters", "Watson", "Richardson",
+        "Nguyen", "Haddad", "Shah", "Becker", "Kim", "Ortiz",
+        "Petrova", "Bennett", "Cole", "Brooks", "Chen", "Walsh",
     ]
 
 
@@ -51,4 +53,4 @@ def test_prepare_does_not_duplicate_rows(tmp_path):
     repository = SqliteContactRepository(tmp_path / "test.db")
     repository.prepare()
     repository.prepare()
-    assert len(repository.list_contacts()) == 9
+    assert len(repository.list_contacts()) == 21

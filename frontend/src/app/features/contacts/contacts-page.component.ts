@@ -26,18 +26,27 @@ export class ContactsPageComponent {
     this.selection.selectedId$,
     this.selection.showDetail$,
     this.querySubject,
+    this.selection.searchEmails$,
   ]).pipe(
-    map(([contacts, loading, error, selectedId, showDetail, query]) => ({
+    map(([contacts, loading, error, selectedId, showDetail, query, searchEmails]) => ({
       loading,
       error,
       selectedId,
       showDetail,
-      rows: (contacts ?? []).filter((contact) => contactMatches(contact, query)),
+      query,
+      rows: (contacts ?? []).filter((contact) =>
+        contactMatches(contact, query, searchEmails[contact.id] ?? []),
+      ),
     })),
   );
 
   onQuery(event: Event): void {
     this.querySubject.next((event.target as HTMLInputElement).value);
+  }
+
+  clearQuery(input: HTMLInputElement): void {
+    input.value = '';
+    this.querySubject.next('');
   }
 
   select(id: number): void {
