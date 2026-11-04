@@ -5,22 +5,16 @@
 .profile {
   order: 1;
   display: flex;
+  flex-wrap: wrap;
   gap: 18px;
   align-items: flex-start;
-  margin-bottom: 18px;
+  margin-bottom: 28px;
+  max-width: 100%;
 }
 
-@media (min-width: 860px) {
-  .profile {
-    position: absolute;
-    width: 405px;
-    height: 115px;
-    top: 61px;
-    left: 770px;
-    transform: rotate(0deg);
-    opacity: 1;
-    margin-bottom: 0;
-  }
+.profile > div {
+  min-width: 0;
+  flex: 1 1 220px;
 }
 
 .profile-avatar {
@@ -30,12 +24,14 @@
   border-radius: 26px;
   object-fit: cover;
   flex: 0 0 auto;
+  max-width: 100%;
 }
 
 .profile-name {
   font-size: 26px;
   line-height: 1.15;
   letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
 }
 
 .job {
@@ -46,12 +42,17 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-top: 14px;
 }
 
-.field.bio { order: 2; }
+.field.bio {
+  order: 2;
+  min-height: 67px;
+  align-items: center;
+}
 .field.dial { order: 4; }
 .field.meeting { order: 5; }
 .field.phone { order: 6; }

@@ -10,7 +10,7 @@ UI/UX Designer. One contact has one title. The panel title is the one stored.
 
 # Dummy portraits are remote image links, one per contact, in directory order.
 PORTRAIT_URLS = {
-    1: "https://randomuser.me/api/portraits/men/11.jpg",
+    1: "https://randomuser.me/api/portraits/men/75.jpg",
     2: "https://randomuser.me/api/portraits/men/22.jpg",
     3: "https://randomuser.me/api/portraits/women/44.jpg",
     4: "https://randomuser.me/api/portraits/men/33.jpg",
